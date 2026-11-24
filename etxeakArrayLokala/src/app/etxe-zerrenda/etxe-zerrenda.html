@@ -1,0 +1,19 @@
+<section>
+  <form (submit)="$event.preventDefault(); bilatu(bilaketa.value)">
+    <input
+      type="text"
+      placeholder="Iragazi hiriaren arabera"
+      #bilaketa
+      (keyup.enter)="bilatu(bilaketa.value)"
+    />
+    <button class="primary" type="button" (click)="bilatu(bilaketa.value)">Bilatu</button>
+  </form>
+</section>
+
+<section class="results">
+  @for (etxea of iragaziak(); track etxea.id) {
+    <app-etxe-txartela [etxea]="etxea" />
+  } @empty {
+    <p>Ez da etxerik aurkitu hiri horretan.</p>
+  }
+</section>

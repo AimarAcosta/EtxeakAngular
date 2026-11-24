@@ -1,0 +1,19 @@
+@if (etxea(); as e) {
+  <article>
+    <img class="listing-photo" [src]="e.photo" [alt]="e.name" />
+    <section class="listing-description">
+      <h2 class="listing-heading">{{ e.name }}</h2>
+      <p class="listing-location">{{ e.city }}, {{ e.state }}</p>
+    </section>
+    <section class="listing-features">
+      <h2 class="section-heading">Etxe honi buruz</h2>
+      <ul>
+        <li>Unitate libreak: {{ e.availableUnits }}</li>
+        <li>Wifia badu: {{ e.wifi ? 'Bai' : 'Ez' }}</li>
+        <li>Garbitegia badu: {{ e.laundry ? 'Bai' : 'Ez' }}</li>
+      </ul>
+    </section>
+  </article>
+} @else {
+  <p class="not-found">Ez da eskatutako etxerik aurkitu.</p>
+}

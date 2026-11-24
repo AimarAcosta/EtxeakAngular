@@ -1,0 +1,47 @@
+@if (etxea(); as e) {
+  <article>
+    <img class="listing-photo" [src]="e.photo" [alt]="e.name" />
+    <section class="listing-description">
+      <h2 class="listing-heading">{{ e.name }}</h2>
+      <p class="listing-location">{{ e.city }}, {{ e.state }}</p>
+    </section>
+
+    <section class="listing-features">
+      <h2 class="section-heading">Etxe honi buruz</h2>
+      <ul>
+        <li>Unitate libreak: {{ e.availableUnits }}</li>
+        <li>Wifia badu: {{ e.wifi ? 'Bai' : 'Ez' }}</li>
+        <li>Garbitegia badu: {{ e.laundry ? 'Bai' : 'Ez' }}</li>
+      </ul>
+    </section>
+
+    <section class="listing-apply">
+      <h2 class="section-heading">Eskatu informazioa</h2>
+      <form #f="ngForm" (ngSubmit)="gordeInteresduna(f)">
+        <label for="izena">Izena</label>
+        <input id="izena" name="izena" type="text" [(ngModel)]="izena" required />
+
+        <label for="abizena">Abizena</label>
+        <input id="abizena" name="abizena" type="text" [(ngModel)]="abizena" required />
+
+        <label for="emaila">Emaila</label>
+        <input id="emaila" name="emaila" type="email" [(ngModel)]="emaila" required email />
+
+        <button type="submit" class="primary" [disabled]="f.invalid">Bidali</button>
+      </form>
+    </section>
+
+    <section class="listing-interested">
+      <h2 class="section-heading">Interesdunak</h2>
+      <ul>
+        @for (i of interesdunak(); track $index) {
+          <li>{{ i.izena }} {{ i.abizena }} ({{ i.emaila }})</li>
+        } @empty {
+          <p>Oraindik ez dago interesdunik etxe honetarako.</p>
+        }
+      </ul>
+    </section>
+  </article>
+} @else {
+  <p class="not-found">Ez da eskatutako etxerik aurkitu.</p>
+}
