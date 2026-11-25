@@ -1,4 +1,6 @@
-@if (etxea(); as e) {
+@if (kargatzen()) {
+  <p>Kargatzen...</p>
+} @else if (etxea(); as e) {
   <article>
     <img class="listing-photo" [src]="e.photo" [alt]="e.name" />
     <section class="listing-description">
@@ -33,13 +35,15 @@
 
     <section class="listing-interested">
       <h2 class="section-heading">Interesdunak</h2>
-      <ul>
-        @for (i of interesdunak(); track $index) {
-          <li>{{ i.izena }} {{ i.abizena }} ({{ i.emaila }})</li>
-        } @empty {
-          <p>Oraindik ez dago interesdunik etxe honetarako.</p>
-        }
-      </ul>
+      @if (interesdunak().length > 0) {
+        <ul>
+          @for (i of interesdunak(); track $index) {
+            <li>{{ i.izena }} {{ i.abizena }} ({{ i.emaila }})</li>
+          }
+        </ul>
+      } @else {
+        <p>Oraindik ez dago interesdunik etxe honetarako.</p>
+      }
     </section>
   </article>
 } @else {

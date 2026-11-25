@@ -2,5 +2,8 @@
   <img class="listing-photo" [src]="etxea().photo" [alt]="etxea().name" />
   <h2 class="listing-heading">{{ etxea().name }}</h2>
   <p class="listing-location">{{ etxea().city }}, {{ etxea().state }}</p>
-  <a [routerLink]="['/xehetasuna', etxea().id]">Gehiago jakin</a>
+  <div class="listing-footer">
+    <a [routerLink]="['/xehetasuna', etxea().id]">Gehiago jakin</a>
+    <span class="badge">{{ interesdunKopurua() }} interesdun</span>
+  </div>
 </section>

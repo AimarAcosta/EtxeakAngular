@@ -18,8 +18,8 @@ export class EtxeXehetasuna {
 
   etxea = signal<Etxea | undefined>(undefined);
   interesdunak = signal<Interesduna[]>([]);
+  kargatzen = signal(true);
 
-  // Formularioaren eremuak
   izena = '';
   abizena = '';
   emaila = '';
@@ -31,15 +31,26 @@ export class EtxeXehetasuna {
         next: (datua) => {
           this.etxea.set(datua);
           this.kargatuInteresdunak(id);
+          this.kargatzen.set(false);
         },
-        error: () => this.etxea.set(undefined),
+        error: () => {
+          this.etxea.set(undefined);
+          this.kargatzen.set(false);
+        },
       });
+    } else {
+      this.kargatzen.set(false);
     }
   }
 
   private lortuGuztiakStorage(): Interesduna[] {
     const gordeta = localStorage.getItem(this.STORAGE_KEY);
-    return gordeta ? JSON.parse(gordeta) : [];
+    if (!gordeta) return [];
+    try {
+      return JSON.parse(gordeta);
+    } catch {
+      return [];
+    }
   }
 
   private kargatuInteresdunak(etxeaId: string) {
@@ -51,11 +62,16 @@ export class EtxeXehetasuna {
     const e = this.etxea();
     if (!e || form.invalid) return;
 
+    const izena = this.izena.trim();
+    const abizena = this.abizena.trim();
+    const emaila = this.emaila.trim();
+    if (!izena || !abizena || !emaila) return;
+
     const berria: Interesduna = {
       etxeaId: e.id,
-      izena: this.izena.trim(),
-      abizena: this.abizena.trim(),
-      emaila: this.emaila.trim(),
+      izena,
+      abizena,
+      emaila,
     };
 
     const guztiak = this.lortuGuztiakStorage();
@@ -63,7 +79,6 @@ export class EtxeXehetasuna {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(guztiak));
 
     this.interesdunak.set(guztiak.filter((i) => i.etxeaId === e.id));
-
     form.resetForm();
   }
 }

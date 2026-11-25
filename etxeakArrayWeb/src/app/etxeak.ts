@@ -5,7 +5,7 @@ import { Etxea } from './etxea';
   providedIn: 'root',
 })
 export class Etxeak {
-  private readonly ARGAZKIAK = 'https://angular.dev';
+  private readonly ARGAZKIAK = 'https://angular.dev/assets/images/tutorials/common/';
 
   private etxeak: Etxea[] = [
     {

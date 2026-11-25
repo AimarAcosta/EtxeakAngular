@@ -1,12 +1,15 @@
 <section>
-  <form (submit)="$event.preventDefault(); bilatu(bilaketa.value)">
+  <form (submit)="$event.preventDefault()">
     <input
       type="text"
       placeholder="Iragazi hiriaren arabera"
-      #bilaketa
-      (keyup.enter)="bilatu(bilaketa.value)"
+      #inputBilaketa
+      [value]="bilaketa()"
+      (input)="bilaketa.set(inputBilaketa.value)"
     />
-    <button class="primary" type="button" (click)="bilatu(bilaketa.value)">Bilatu</button>
+    @if (bilaketa()) {
+      <button class="primary" type="button" (click)="garbitu()">Garbitu</button>
+    }
   </form>
 </section>
 

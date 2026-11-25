@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { EtxeTxartela } from '../etxe-txartela/etxe-txartela';
 import { Etxeak } from '../etxeak';
 import { Etxea } from '../etxea';
@@ -13,14 +13,15 @@ export class EtxeZerrenda {
   private etxeakZerbitzua = inject(Etxeak);
 
   etxeak = signal<Etxea[]>(this.etxeakZerbitzua.guztiak());
-  iragaziak = signal<Etxea[]>(this.etxeak());
+  bilaketa = signal('');
 
-  bilatu(testua: string) {
-    const t = testua.trim().toLowerCase();
-    if (!t) {
-      this.iragaziak.set(this.etxeak());
-      return;
-    }
-    this.iragaziak.set(this.etxeak().filter((e) => e.city.toLowerCase().includes(t)));
+  iragaziak = computed(() => {
+    const t = this.bilaketa().trim().toLowerCase();
+    if (!t) return this.etxeak();
+    return this.etxeak().filter((e) => e.city.toLowerCase().includes(t));
+  });
+
+  garbitu() {
+    this.bilaketa.set('');
   }
 }

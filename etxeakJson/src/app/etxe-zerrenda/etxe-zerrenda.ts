@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { EtxeTxartela } from '../etxe-txartela/etxe-txartela';
 import { Etxeak } from '../etxeak';
 import { Etxea } from '../etxea';
@@ -13,24 +13,31 @@ export class EtxeZerrenda {
   private etxeakZerbitzua = inject(Etxeak);
 
   etxeak = signal<Etxea[]>([]);
-  iragaziak = signal<Etxea[]>([]);
+  bilaketa = signal('');
+  kargatzen = signal(true);
+  errorea = signal(false);
+
+  iragaziak = computed(() => {
+    const t = this.bilaketa().trim().toLowerCase();
+    if (!t) return this.etxeak();
+    return this.etxeak().filter((e) => e.city.toLowerCase().includes(t));
+  });
 
   constructor() {
     this.etxeakZerbitzua.guztiak().subscribe({
       next: (datuak) => {
         this.etxeak.set(datuak);
-        this.iragaziak.set(datuak);
+        this.kargatzen.set(false);
       },
-      error: (err) => console.error('Errorea etxeak kargatzean:', err),
+      error: (err) => {
+        console.error('Errorea etxeak kargatzean:', err);
+        this.errorea.set(true);
+        this.kargatzen.set(false);
+      },
     });
   }
 
-  bilatu(testua: string) {
-    const t = testua.trim().toLowerCase();
-    if (!t) {
-      this.iragaziak.set(this.etxeak());
-      return;
-    }
-    this.iragaziak.set(this.etxeak().filter((e) => e.city.toLowerCase().includes(t)));
+  garbitu() {
+    this.bilaketa.set('');
   }
 }

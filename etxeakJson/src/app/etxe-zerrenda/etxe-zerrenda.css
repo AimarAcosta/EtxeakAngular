@@ -33,3 +33,16 @@ button.primary {
     width: 65%;
   }
 }
+
+.egoera {
+  margin-top: 24px;
+  color: #605dc8;
+  font-weight: bold;
+}
+.errorea {
+  margin-top: 24px;
+  padding: 12px 16px;
+  background: #fdecea;
+  color: #b71c1c;
+  border-radius: 8px;
+}
